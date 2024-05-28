@@ -618,25 +618,24 @@ require('lazy').setup({
         --    https://github.com/pmizio/typescript-tools.nvim
         --
         -- But for many setups, the LSP (`tsserver`) will work just fine
+        black = {},
         eslint = {
           capabilities = {
             document_formatting = true,
           },
           root_dir = require('lspconfig').util.find_git_ancestor,
           settings = {
-            autoFixOnSave = true,
-            format = { enable = true },
+            eslint = {
+              autoFixOnSave = true,
+              format = { enable = true },
+            },
           },
         },
         --eslint_d = {},
-        prettier = {},
-        prettierd = {},
-        tsserver = {},
+        gopls = {},
         graphql = {
           filetypes = { 'graphql', 'typescript', 'typescriptreact', 'javascript', 'javascriptreact' },
         },
-        --
-
         lua_ls = {
           -- cmd = {...},
           -- filetypes = { ...},
@@ -651,6 +650,22 @@ require('lazy').setup({
             },
           },
         },
+        markdownlint = {},
+        prettier = {},
+        prettierd = {},
+        prismals = {},
+        pylsp = {
+          settings = {
+            pylsp = {
+              plugins = {
+                black = { enabled = true },
+              },
+            },
+          },
+        },
+        stylua = {}, -- Used to format Lua code
+        svelte = {},
+        tsserver = {},
       }
 
       -- Ensure the servers and tools above are installed
@@ -664,9 +679,6 @@ require('lazy').setup({
       -- You can add other tools here that you want Mason to install
       -- for you, so that they are available from within Neovim.
       local ensure_installed = vim.tbl_keys(servers or {})
-      vim.list_extend(ensure_installed, {
-        'stylua', -- Used to format Lua code
-      })
       require('mason-tool-installer').setup { ensure_installed = ensure_installed }
 
       require('mason-lspconfig').setup {
@@ -1019,5 +1031,8 @@ end)
 -- Refactor variable
 vim.keymap.set('n', '<leader><C-r>l', 'yiw[{V%:s/<C-R>///gc<left><left><left>', { desc = 'Refactor local variable' })
 vim.keymap.set('n', '<leader><C-r>g', 'gD:%s/<C-R>///gc<left><left><left>', { desc = 'Refactor global variable' })
+
+-- Copy buffer file path
+vim.keymap.set('n', '<leader>cp', '<cmd>let @+ = expand("%")<cr>', { desc = 'Copy buffer file path' })
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et
