@@ -636,6 +636,7 @@ require('lazy').setup({
         graphql = {
           filetypes = { 'graphql', 'typescript', 'typescriptreact', 'javascript', 'javascriptreact' },
         },
+        jsonls = {},
         lua_ls = {
           -- cmd = {...},
           -- filetypes = { ...},
@@ -723,6 +724,7 @@ require('lazy').setup({
       end,
       formatters_by_ft = {
         lua = { 'stylua' },
+        markdown = { 'markdownlint' },
         -- Conform can also run multiple formatters sequentially
         -- python = { "isort", "black" },
         --
