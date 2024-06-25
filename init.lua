@@ -925,6 +925,7 @@ require('lazy').setup({
     build = ':TSUpdate',
     opts = {
       ensure_installed = {
+        'astro',
         'bash',
         'c',
         'diff',
