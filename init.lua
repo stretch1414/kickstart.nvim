@@ -635,7 +635,7 @@ require('lazy').setup({
           capabilities = {
             document_formatting = true,
           },
-          root_dir = require('lspconfig').util.find_git_ancestor,
+          -- root_dir = require('lspconfig').util.find_git_ancestor,
           settings = {
             eslint = {
               autoFixOnSave = true,
@@ -742,7 +742,10 @@ require('lazy').setup({
         --
         -- You can use a sub-list to tell conform to run *until* a formatter
         -- is found.
-        -- javascript = { { 'prettierd', 'prettier' } },
+        javascript = { { 'prettierd', 'prettier' } },
+        javascriptreact = { { 'prettierd', 'prettier' } },
+        typescript = { { 'prettierd', 'prettier' } },
+        typescriptreact = { { 'prettierd', 'prettier' } },
       },
     },
   },
