@@ -672,15 +672,7 @@ require('lazy').setup({
         markdownlint = {},
         prettier = {},
         prismals = {},
-        pylsp = {
-          settings = {
-            pylsp = {
-              plugins = {
-                black = { enabled = true },
-              },
-            },
-          },
-        },
+        pyright = {},
         stylua = {}, -- Used to format Lua code
         svelte = {},
         tsserver = {},
@@ -945,6 +937,7 @@ require('lazy').setup({
         'luadoc',
         'markdown',
         'markdown_inline',
+        'python',
         'query',
         'typescript',
         'vim',
