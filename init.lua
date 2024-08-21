@@ -748,6 +748,7 @@ require('lazy').setup({
         json = { 'prettier' },
         css = { 'prettier' },
         html = { 'prettier' },
+        python = { 'black' },
       },
     },
   },
