@@ -958,6 +958,7 @@ require('lazy').setup({
         'bash',
         'c',
         'diff',
+        'go',
         'graphql',
         'html',
         'javascript',
