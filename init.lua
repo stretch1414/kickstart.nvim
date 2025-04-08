@@ -702,7 +702,7 @@ require('lazy').setup({
         rust_analyzer = {},
         stylua = {}, -- Used to format Lua code
         svelte = {},
-        tsserver = {},
+        ts_ls = {},
       }
 
       -- Ensure the servers and tools above are installed
