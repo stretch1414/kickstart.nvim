@@ -685,7 +685,7 @@ require('lazy').setup({
           capabilities = {
             document_formatting = true,
           },
-          root_dir = require('lspconfig').util.find_git_ancestor,
+          -- root_dir = require('lspconfig').util.find_git_ancestor,
           settings = {
             eslint = {
               autoFixOnSave = true,
@@ -698,6 +698,15 @@ require('lazy').setup({
         graphql = {
           filetypes = { 'graphql', 'typescript', 'typescriptreact', 'javascript', 'javascriptreact' },
         },
+        helm_ls = {
+          settings = {
+            ['helm-ls'] = {
+              yamlls = {
+                path = 'yaml-language-server',
+              },
+            },
+          },
+        },
         jsonls = {},
         lua_ls = {
           -- cmd = {...},
@@ -705,22 +714,49 @@ require('lazy').setup({
           -- capabilities = {},
           settings = {
             Lua = {
+              runtime = {
+                -- Tell the language server which version of Lua you're using
+                -- (most likely LuaJIT in the case of Neovim)
+                version = 'LuaJIT',
+              },
               completion = {
                 callSnippet = 'Replace',
               },
-              -- You can toggle below to ignore Lua_LS's noisy `missing-fields` warnings
-              -- diagnostics = { disable = { 'missing-fields' } },
+              diagnostics = {
+                -- Get the language server to recognize the `vim` global
+                globals = {
+                  'vim',
+                  'require',
+                },
+                -- You can toggle below to ignore Lua_LS's noisy `missing-fields` warnings
+                -- { disable = { 'missing-fields' } },
+              },
+              workspace = {
+                -- Make the server aware of Neovim runtime files
+                library = vim.api.nvim_get_runtime_file('', true),
+              },
+              -- Do not send telemetry data containing a randomized but unique identifier
+              telemetry = {
+                enable = false,
+              },
             },
           },
         },
         markdownlint = {},
         prettier = {},
-        prismals = {},
+        prismals = {
+          root_dir = require('lspconfig').util.root_pattern('.git', 'package.json'),
+          settings = {
+            schemaPath = './prisma',
+          },
+        },
         pyright = {},
         rust_analyzer = {},
         stylua = {}, -- Used to format Lua code
         svelte = {},
-        ts_ls = {},
+        -- ts_ls = {},
+        tsgo = {},
+        yamlls = {},
       }
 
       -- Ensure the servers and tools above are installed
@@ -737,6 +773,8 @@ require('lazy').setup({
       require('mason-tool-installer').setup { ensure_installed = ensure_installed }
 
       require('mason-lspconfig').setup {
+        ensure_installed = ensure_installed,
+        automatic_installation = false,
         handlers = {
           function(server_name)
             local server = servers[server_name] or {}
@@ -978,12 +1016,14 @@ require('lazy').setup({
         'diff',
         'go',
         'graphql',
+        'helm',
         'html',
         'javascript',
         'lua',
         'luadoc',
         'markdown',
         'markdown_inline',
+        'prisma',
         'python',
         'query',
         'rust',
@@ -1018,6 +1058,7 @@ require('lazy').setup({
       --    - Treesitter + textobjects: https://github.com/nvim-treesitter/nvim-treesitter-textobjects
     end,
   },
+  { 'qvalentin/helm-ls.nvim', ft = 'helm' },
 
   -- The following two comments only work if you have downloaded the kickstart repo, not just copy pasted the
   -- init.lua. If you want these files, they are in the repository, so you can just download them and
@@ -1045,21 +1086,21 @@ require('lazy').setup({
   ui = {
     -- If you are using a Nerd Font: set icons to an empty table which will use the
     -- default lazy.nvim defined Nerd Font icons, otherwise define a unicode icons table
-    icons = vim.g.have_nerd_font and {} or {
-      cmd = '⌘',
-      config = '🛠',
-      event = '📅',
-      ft = '📂',
-      init = '⚙',
-      keys = '🗝',
-      plugin = '🔌',
-      runtime = '💻',
-      require = '🌙',
-      source = '📄',
-      start = '🚀',
-      task = '📌',
-      lazy = '💤 ',
-    },
+    -- icons = vim.g.have_nerd_font and {} or {
+    --   cmd = '⌘',
+    --   config = '🛠',
+    --   event = '📅',
+    --   ft = '📂',
+    --   init = '⚙',
+    --   keys = '🗝',
+    --   plugin = '🔌',
+    --   runtime = '💻',
+    --   require = '🌙',
+    --   source = '📄',
+    --   start = '🚀',
+    --   task = '📌',
+    --   lazy = '💤 ',
+    -- },
   },
 })
 
