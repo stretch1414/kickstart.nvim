@@ -383,7 +383,7 @@ require('lazy').setup({
   { -- Fuzzy Finder (files, lsp, etc)
     'nvim-telescope/telescope.nvim',
     event = 'VimEnter',
-    branch = '0.1.x',
+    -- branch = '0.1.x',
     dependencies = {
       'nvim-lua/plenary.nvim',
       { -- If encountering errors, see telescope-fzf-native README for installation instructions
@@ -754,8 +754,8 @@ require('lazy').setup({
         rust_analyzer = {},
         stylua = {}, -- Used to format Lua code
         svelte = {},
-        -- ts_ls = {},
-        tsgo = {},
+        ts_ls = {},
+        -- tsgo = {},
         yamlls = {},
       }
 
@@ -965,6 +965,24 @@ require('lazy').setup({
     end,
   },
 
+  -- { -- You can easily change to a different colorscheme.
+  --   -- Change the name of the colorscheme plugin below, and then
+  --   -- change the command in the config to whatever the name of that colorscheme is.
+  --   --
+  --   -- If you want to see what colorschemes are already installed, you can use `:Telescope colorscheme`.
+  --   'rebelot/kanagawa.nvim',
+  --   priority = 1000, -- Make sure to load this before all the other start plugins.
+  --   init = function()
+  --     -- Load the colorscheme here.
+  --     -- Like many other themes, this one has different styles, and you could load
+  --     -- any other, such as 'kanagawa-wave', 'kanagawa-dragon', or 'kanagawa-lotus'.
+  --     vim.cmd.colorscheme 'kanagawa-wave'
+  --
+  --     -- You can configure highlights by doing something like:
+  --     vim.cmd.hi 'Comment gui=none'
+  --   end,
+  -- },
+
   -- Highlight todo, notes, etc in comments
   { 'folke/todo-comments.nvim', event = 'VimEnter', dependencies = { 'nvim-lua/plenary.nvim' }, opts = { signs = false } },
 
@@ -1008,6 +1026,7 @@ require('lazy').setup({
   { -- Highlight, edit, and navigate code
     'nvim-treesitter/nvim-treesitter',
     build = ':TSUpdate',
+    branch = 'main',
     opts = {
       ensure_installed = {
         'astro',
@@ -1027,6 +1046,7 @@ require('lazy').setup({
         'python',
         'query',
         'rust',
+        'tsx',
         'typescript',
         'vim',
         'vimdoc',
@@ -1048,7 +1068,7 @@ require('lazy').setup({
       -- Prefer git instead of curl in order to improve connectivity in some environments
       require('nvim-treesitter.install').prefer_git = true
       ---@diagnostic disable-next-line: missing-fields
-      require('nvim-treesitter.configs').setup(opts)
+      require('nvim-treesitter.config').setup(opts)
 
       -- There are additional nvim-treesitter modules that you can use to interact
       -- with nvim-treesitter. You should go explore a few and see what interests you:
@@ -1102,6 +1122,18 @@ require('lazy').setup({
     --   lazy = '💤 ',
     -- },
   },
+})
+
+vim.api.nvim_create_autocmd('FileType', {
+  desc = 'Enable certain file types highlights',
+  pattern = 'prisma',
+  group = vim.api.nvim_create_augroup('prisma-highlight-start', {
+    clear = true,
+  }),
+  callback = function(args)
+    vim.treesitter.start(args.buf, 'prisma')
+    -- vim.bo[args.buf].syntax = "on" -- only if additional legacy syntax is needed
+  end,
 })
 
 local harpoon = require 'harpoon'
